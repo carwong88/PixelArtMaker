@@ -1,11 +1,36 @@
-// Nanodegree Javascript Art Project: Pixel Art Maker
+/* Nanodegree Javascript Art Project: Pixel Art Maker
 
+## Features Criteria
+1. The user can create a canvas of any (reasonable) size.
+2. The user can color the pixels in the grid.
+3. The user can reset the grid to a blank state.
+
+## Code Quality Criteria
+1. The script.js JavaScript code works with the provided HTML and CSS files.
+2. Code is neatly formatted and commented.
+3. Code runs without errors in the JavaScript console.
+*/
+
+
+/**
+ * Toggle the cell between the selected color or white.
+
+ * @param {element} e The single cell <td> element>.
+ * @param {color code} color The selected color.
+ */
 function colorCell(e, color) {
     e.preventDefault();
-    e.srcElement.style.backgroundColor = color;
+    if (e.srcElement.getAttribute('style')) {
+        e.srcElement.removeAttribute('style');
+    } else {
+        e.srcElement.style.backgroundColor = color;
+    };
 }
 
 
+/**
+ * Create a <tbody> element to contain a grid.
+ */
 function newGrid() {
     if (document.querySelector('#grids') === null) {
         var tbody = document.createElement('tbody');
@@ -16,6 +41,13 @@ function newGrid() {
 }
 
 
+/**
+ * Create a grid of specified size under the <tbody> tag.
+ *
+ * @param {number} maxRow The number of rows.
+ * @param {number} maxCol The number of columns.
+ * @return {element} tbody The tboby element.
+ */
 function createCells(maxRow, maxCol, tbody) {
     for (var row = 1; row <= maxRow; row++) {
         let rowElem = document.createElement('tr');
@@ -34,7 +66,13 @@ function createCells(maxRow, maxCol, tbody) {
 }
 
 
+/**
+ * Create a new grid whenever the #sizePicker submit button is clicked.
+ *
+ * @param {element} e The SubmitEvent
+ */
 function makeGrid(e) {
+    console.log(e);
     e.preventDefault();
     const sizes = e.target.querySelectorAll('input');
 
@@ -66,7 +104,7 @@ colorPicker.onchange = () => {
 };
 
 
-window.onload = (e) => {
+window.onload = () => {
     createCells(sizes[0].value, sizes[1].value, tbody);
     color = colorPicker.value;
 };
